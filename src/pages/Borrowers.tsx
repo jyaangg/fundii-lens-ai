@@ -1,6 +1,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useState } from 'react';
+import { CheckCircle, Clock } from 'lucide-react';
 
 const borrowersData = [
   {
@@ -71,6 +73,21 @@ const borrowersData = [
   }
 ];
 
+const mockDocumentList = [
+  'Property Insurance',
+  'Property Tax',
+  'Financial Statement',
+  'Business License',
+  'Operating Agreement',
+  'Lease Agreement',
+  'Environmental Report',
+  'Appraisal',
+  'Title Policy',
+  'Survey',
+  'Borrower Financials',
+  'Guarantor Financials',
+];
+
 const getStatusBadge = (status: string) => {
   switch (status) {
     case "Completed":
@@ -93,6 +110,12 @@ const getProgressPercentage = (collected: number, total: number) => {
 };
 
 export default function Borrowers() {
+  const [expandedBorrowerId, setExpandedBorrowerId] = useState<number | null>(null);
+
+  const handleRowClick = (borrowerId: number) => {
+    setExpandedBorrowerId(expandedBorrowerId === borrowerId ? null : borrowerId);
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -122,42 +145,93 @@ export default function Borrowers() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {borrowersData.map((borrower) => (
-                <TableRow key={borrower.id}>
-                  <TableCell className="font-medium">
-                    <div>
-                      <div className="font-semibold">{borrower.name}</div>
-                      <div className="text-sm text-muted-foreground">{borrower.email}</div>
-                    </div>
-                  </TableCell>
-                  <TableCell>{borrower.loanNumber}</TableCell>
-                  <TableCell>{borrower.contactPerson}</TableCell>
-                  <TableCell>
-                    <div className="space-y-1">
-                      <div className="flex items-center justify-between text-sm">
-                        <span>{borrower.documentsCollected}/{borrower.totalDocumentsRequired} docs</span>
-                        <span className="text-muted-foreground">
-                          {getProgressPercentage(borrower.documentsCollected, borrower.totalDocumentsRequired)}%
-                        </span>
-                      </div>
-                      <div className="w-full bg-secondary rounded-full h-2">
-                        <div 
-                          className="bg-primary h-2 rounded-full transition-all" 
-                          style={{ 
-                            width: `${getProgressPercentage(borrower.documentsCollected, borrower.totalDocumentsRequired)}%` 
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    {getStatusBadge(borrower.annualReviewStatus)}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {new Date(borrower.lastUpdate).toLocaleDateString()}
-                  </TableCell>
-                </TableRow>
-              ))}
+              {borrowersData.map((borrower) => {
+                const isExpanded = expandedBorrowerId === borrower.id;
+                // For demo: first N are collected, rest are outstanding
+                const receivedDocs = mockDocumentList.slice(0, borrower.documentsCollected);
+                const outstandingDocs = mockDocumentList.slice(borrower.documentsCollected, borrower.totalDocumentsRequired);
+                return (
+                  <>
+                    <TableRow
+                      key={borrower.id}
+                      className={isExpanded ? 'bg-muted/30' : 'cursor-pointer hover:bg-muted/20'}
+                      onClick={() => handleRowClick(borrower.id)}
+                      style={{ transition: 'background 0.2s' }}
+                    >
+                      <TableCell className="font-medium">
+                        <div>
+                          <div className="font-semibold">{borrower.name}</div>
+                          <div className="text-sm text-muted-foreground">{borrower.email}</div>
+                        </div>
+                      </TableCell>
+                      <TableCell>{borrower.loanNumber}</TableCell>
+                      <TableCell>{borrower.contactPerson}</TableCell>
+                      <TableCell>
+                        <div className="space-y-1">
+                          <div className="flex items-center justify-between text-sm">
+                            <span>{borrower.documentsCollected}/{borrower.totalDocumentsRequired} docs</span>
+                            <span className="text-muted-foreground">
+                              {getProgressPercentage(borrower.documentsCollected, borrower.totalDocumentsRequired)}%
+                            </span>
+                          </div>
+                          <div className="w-full bg-secondary rounded-full h-2">
+                            <div 
+                              className="bg-primary h-2 rounded-full transition-all" 
+                              style={{ 
+                                width: `${getProgressPercentage(borrower.documentsCollected, borrower.totalDocumentsRequired)}%` 
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        {getStatusBadge(borrower.annualReviewStatus)}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground">
+                        {new Date(borrower.lastUpdate).toLocaleDateString()}
+                      </TableCell>
+                    </TableRow>
+                    {isExpanded && (
+                      <TableRow>
+                        <TableCell colSpan={6} className="p-0 bg-muted/10">
+                          <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                              <h4 className="font-medium text-sm mb-2 text-success">Received Documents</h4>
+                              <div className="space-y-1">
+                                {receivedDocs.length > 0 ? (
+                                  receivedDocs.map((doc, idx) => (
+                                    <div key={doc} className="flex items-center gap-2 text-sm">
+                                      <CheckCircle className="w-3 h-3 text-success" />
+                                      {doc}
+                                    </div>
+                                  ))
+                                ) : (
+                                  <p className="text-sm text-muted-foreground">No documents received yet</p>
+                                )}
+                              </div>
+                            </div>
+                            <div>
+                              <h4 className="font-medium text-sm mb-2 text-warning">Outstanding Documents</h4>
+                              <div className="space-y-1">
+                                {outstandingDocs.length > 0 ? (
+                                  outstandingDocs.map((doc, idx) => (
+                                    <div key={doc} className="flex items-center gap-2 text-sm">
+                                      <Clock className="w-3 h-3 text-warning" />
+                                      {doc}
+                                    </div>
+                                  ))
+                                ) : (
+                                  <p className="text-sm text-muted-foreground">No outstanding documents</p>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </>
+                );
+              })}
             </TableBody>
           </Table>
         </CardContent>
