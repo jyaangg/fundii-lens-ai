@@ -8,6 +8,7 @@ import Upload from "./pages/Upload";
 import Documents from "./pages/Documents";
 import Analytics from "./pages/Analytics";
 import ProcessingStatus from "./pages/ProcessingStatus";
+import Borrowers from "./pages/Borrowers";
 import NotFound from "./pages/NotFound";
 import { DashboardLayout } from "./components/layout/DashboardLayout";
 
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/documents" element={<Documents />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/status" element={<ProcessingStatus />} />
+            <Route path="/borrowers" element={<Borrowers />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
