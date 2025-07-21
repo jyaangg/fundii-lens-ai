@@ -1,10 +1,24 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+// External imports
 import { useState } from 'react';
 import { CheckCircle, Clock } from 'lucide-react';
+// Internal imports
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
-const borrowersData = [
+interface Borrower {
+  id: number;
+  name: string;
+  loanNumber: string;
+  contactPerson: string;
+  email: string;
+  annualReviewStatus: string;
+  documentsCollected: number;
+  totalDocumentsRequired: number;
+  lastUpdate: string;
+}
+
+const borrowersData: Borrower[] = [
   {
     id: 1,
     name: "ABC Manufacturing Corp",
@@ -73,7 +87,7 @@ const borrowersData = [
   }
 ];
 
-const mockDocumentList = [
+const mockDocumentList: string[] = [
   'Property Insurance',
   'Property Tax',
   'Financial Statement',
@@ -88,28 +102,28 @@ const mockDocumentList = [
   'Guarantor Financials',
 ];
 
-const getStatusBadge = (status: string) => {
+const getStatusBadge = (status: string): JSX.Element => {
   switch (status) {
-    case "Completed":
-      return <Badge variant="default" className="bg-green-500/10 text-green-700 hover:bg-green-500/20">Completed</Badge>;
-    case "In Progress":
-      return <Badge variant="secondary">In Progress</Badge>;
-    case "Overdue":
-      return <Badge variant="destructive">Overdue</Badge>;
-    case "Not Started":
-      return <Badge variant="outline">Not Started</Badge>;
-    case "Requires Attention":
-      return <Badge className="bg-yellow-500/10 text-yellow-700 hover:bg-yellow-500/20">Requires Attention</Badge>;
+    case 'Completed':
+      return <Badge variant='default' className='bg-green-500/10 text-green-700 hover:bg-green-500/20'>Completed</Badge>;
+    case 'In Progress':
+      return <Badge variant='secondary'>In Progress</Badge>;
+    case 'Overdue':
+      return <Badge variant='destructive'>Overdue</Badge>;
+    case 'Not Started':
+      return <Badge variant='outline'>Not Started</Badge>;
+    case 'Requires Attention':
+      return <Badge className='bg-yellow-500/10 text-yellow-700 hover:bg-yellow-500/20'>Requires Attention</Badge>;
     default:
-      return <Badge variant="outline">{status}</Badge>;
+      return <Badge variant='outline'>{status}</Badge>;
   }
 };
 
-const getProgressPercentage = (collected: number, total: number) => {
+const getProgressPercentage = (collected: number, total: number): number => {
   return Math.round((collected / total) * 100);
 };
 
-export default function Borrowers() {
+const Borrowers: React.FC = () => {
   const [expandedBorrowerId, setExpandedBorrowerId] = useState<number | null>(null);
 
   const handleRowClick = (borrowerId: number) => {
@@ -117,14 +131,13 @@ export default function Borrowers() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className='space-y-6'>
       <div>
-        <h1 className="text-3xl font-bold">Borrowers</h1>
-        <p className="text-muted-foreground">
+        <h1 className='text-3xl font-bold'>Borrowers</h1>
+        <p className='text-muted-foreground'>
           Manage borrowers and track their annual review document collection status.
         </p>
       </div>
-
       <Card>
         <CardHeader>
           <CardTitle>Borrower Annual Review Status</CardTitle>
@@ -145,83 +158,79 @@ export default function Borrowers() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {borrowersData.map((borrower) => {
-                const isExpanded = expandedBorrowerId === borrower.id;
-                // For demo: first N are collected, rest are outstanding
-                const receivedDocs = mockDocumentList.slice(0, borrower.documentsCollected);
-                const outstandingDocs = mockDocumentList.slice(borrower.documentsCollected, borrower.totalDocumentsRequired);
+              {borrowersData.map(({ id, name, loanNumber, contactPerson, email, annualReviewStatus, documentsCollected, totalDocumentsRequired, lastUpdate }) => {
+                const isExpanded = expandedBorrowerId === id;
+                const receivedDocs = mockDocumentList.slice(0, documentsCollected);
+                const outstandingDocs = mockDocumentList.slice(documentsCollected, totalDocumentsRequired);
                 return (
                   <>
                     <TableRow
-                      key={borrower.id}
+                      key={id}
                       className={isExpanded ? 'bg-muted/30' : 'cursor-pointer hover:bg-muted/20'}
-                      onClick={() => handleRowClick(borrower.id)}
-                      style={{ transition: 'background 0.2s' }}
+                      onClick={() => handleRowClick(id)}
                     >
-                      <TableCell className="font-medium">
+                      <TableCell className='font-medium'>
                         <div>
-                          <div className="font-semibold">{borrower.name}</div>
-                          <div className="text-sm text-muted-foreground">{borrower.email}</div>
+                          <div className='font-semibold'>{name}</div>
+                          <div className='text-sm text-muted-foreground'>{email}</div>
                         </div>
                       </TableCell>
-                      <TableCell>{borrower.loanNumber}</TableCell>
-                      <TableCell>{borrower.contactPerson}</TableCell>
+                      <TableCell>{loanNumber}</TableCell>
+                      <TableCell>{contactPerson}</TableCell>
                       <TableCell>
-                        <div className="space-y-1">
-                          <div className="flex items-center justify-between text-sm">
-                            <span>{borrower.documentsCollected}/{borrower.totalDocumentsRequired} docs</span>
-                            <span className="text-muted-foreground">
-                              {getProgressPercentage(borrower.documentsCollected, borrower.totalDocumentsRequired)}%
+                        <div className='space-y-1'>
+                          <div className='flex items-center justify-between text-sm'>
+                            <span>{documentsCollected}/{totalDocumentsRequired} docs</span>
+                            <span className='text-muted-foreground'>
+                              {getProgressPercentage(documentsCollected, totalDocumentsRequired)}%
                             </span>
                           </div>
-                          <div className="w-full bg-secondary rounded-full h-2">
-                            <div 
-                              className="bg-primary h-2 rounded-full transition-all" 
-                              style={{ 
-                                width: `${getProgressPercentage(borrower.documentsCollected, borrower.totalDocumentsRequired)}%` 
-                              }}
+                          <div className='w-full bg-secondary rounded-full h-2'>
+                            <div
+                              className='bg-primary h-2 rounded-full transition-all'
+                              style={{ width: `${getProgressPercentage(documentsCollected, totalDocumentsRequired)}%` }}
                             />
                           </div>
                         </div>
                       </TableCell>
                       <TableCell>
-                        {getStatusBadge(borrower.annualReviewStatus)}
+                        {getStatusBadge(annualReviewStatus)}
                       </TableCell>
-                      <TableCell className="text-muted-foreground">
-                        {new Date(borrower.lastUpdate).toLocaleDateString()}
+                      <TableCell className='text-muted-foreground'>
+                        {new Date(lastUpdate).toLocaleDateString()}
                       </TableCell>
                     </TableRow>
                     {isExpanded && (
                       <TableRow>
-                        <TableCell colSpan={6} className="p-0 bg-muted/10">
-                          <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <TableCell colSpan={6} className='p-0 bg-muted/10'>
+                          <div className='p-6 grid grid-cols-1 md:grid-cols-2 gap-6'>
                             <div>
-                              <h4 className="font-medium text-sm mb-2 text-success">Received Documents</h4>
-                              <div className="space-y-1">
+                              <h4 className='font-medium text-sm mb-2 text-success'>Received Documents</h4>
+                              <div className='space-y-1'>
                                 {receivedDocs.length > 0 ? (
-                                  receivedDocs.map((doc, idx) => (
-                                    <div key={doc} className="flex items-center gap-2 text-sm">
-                                      <CheckCircle className="w-3 h-3 text-success" />
+                                  receivedDocs.map((doc) => (
+                                    <div key={doc} className='flex items-center gap-2 text-sm'>
+                                      <CheckCircle className='w-3 h-3 text-success' />
                                       {doc}
                                     </div>
                                   ))
                                 ) : (
-                                  <p className="text-sm text-muted-foreground">No documents received yet</p>
+                                  <p className='text-sm text-muted-foreground'>No documents received yet</p>
                                 )}
                               </div>
                             </div>
                             <div>
-                              <h4 className="font-medium text-sm mb-2 text-warning">Outstanding Documents</h4>
-                              <div className="space-y-1">
+                              <h4 className='font-medium text-sm mb-2 text-warning'>Outstanding Documents</h4>
+                              <div className='space-y-1'>
                                 {outstandingDocs.length > 0 ? (
-                                  outstandingDocs.map((doc, idx) => (
-                                    <div key={doc} className="flex items-center gap-2 text-sm">
-                                      <Clock className="w-3 h-3 text-warning" />
+                                  outstandingDocs.map((doc) => (
+                                    <div key={doc} className='flex items-center gap-2 text-sm'>
+                                      <Clock className='w-3 h-3 text-warning' />
                                       {doc}
                                     </div>
                                   ))
                                 ) : (
-                                  <p className="text-sm text-muted-foreground">No outstanding documents</p>
+                                  <p className='text-sm text-muted-foreground'>No outstanding documents</p>
                                 )}
                               </div>
                             </div>
@@ -238,4 +247,6 @@ export default function Borrowers() {
       </Card>
     </div>
   );
-}
+};
+
+export default Borrowers;
