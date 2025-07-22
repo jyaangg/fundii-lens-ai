@@ -223,12 +223,21 @@ const Borrowers: React.FC = () => {
                               <h4 className='font-medium text-sm mb-2 text-warning'>Outstanding Documents</h4>
                               <div className='space-y-1'>
                                 {outstandingDocs.length > 0 ? (
-                                  outstandingDocs.map((doc) => (
-                                    <div key={doc} className='flex items-center gap-2 text-sm'>
-                                      <Clock className='w-3 h-3 text-warning' />
-                                      {doc}
-                                    </div>
-                                  ))
+                                  <>
+                                    {outstandingDocs.map((doc) => (
+                                      <div key={doc} className='flex items-center gap-2 text-sm'>
+                                        <Clock className='w-3 h-3 text-warning' />
+                                        {doc}
+                                      </div>
+                                    ))}
+                                    <button
+                                      type='button'
+                                      className='mt-4 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition-colors text-sm font-medium'
+                                      onClick={() => {}}
+                                    >
+                                      Draft Follow-Up Email
+                                    </button>
+                                  </>
                                 ) : (
                                   <p className='text-sm text-muted-foreground'>No outstanding documents</p>
                                 )}
