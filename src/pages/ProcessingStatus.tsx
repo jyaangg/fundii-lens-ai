@@ -81,7 +81,7 @@ const processingItems: ProcessingItem[] = [
 const getStatusBadge = (status: ProcessingItem['status']): JSX.Element => {
   switch (status) {
     case 'completed':
-      return <Badge className='bg-success text-success-foreground'>Completed</Badge>;
+      return <Badge className='bg-success text-success-foreground'></Badge>;
     case 'in-progress':
       return <Badge className='bg-info text-info-foreground'>In Progress</Badge>;
     case 'overdue':
@@ -162,10 +162,10 @@ const ProcessingStatus: React.FC = () => {
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className='grid w-full grid-cols-5'>
           <TabsTrigger value='all'>All ({tabCounts.all})</TabsTrigger>
-          <TabsTrigger value='completed'>Completed ({tabCounts.completed})</TabsTrigger>
-          <TabsTrigger value='in-progress'>In Progress ({tabCounts['in-progress']})</TabsTrigger>
           <TabsTrigger value='overdue'>Overdue ({tabCounts.overdue})</TabsTrigger>
           <TabsTrigger value='pending'>Pending ({tabCounts.pending})</TabsTrigger>
+          <TabsTrigger value='in-progress'>In Progress ({tabCounts['in-progress']})</TabsTrigger>
+          <TabsTrigger value='completed'>Completed ({tabCounts.completed})</TabsTrigger>
         </TabsList>
         <TabsContent value={activeTab} className='space-y-4'>
           {filteredItems.map(({ id, borrowerName, loanNumber, propertyAddress, documentsRequired, documentsReceived, dueDate, status, lastUpdated }) => (

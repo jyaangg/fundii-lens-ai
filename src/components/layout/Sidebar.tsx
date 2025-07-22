@@ -23,8 +23,8 @@ const navigation: NavigationItem[] = [
   { name: 'Upload Documents', href: '/upload', icon: Upload },
   { name: 'Document Library', href: '/documents', icon: FileText },
   { name: 'Processing Status', href: '/status', icon: Clock },
-  { name: 'Analytics', href: '/analytics', icon: BarChart3 },
   { name: 'Borrowers', href: '/borrowers', icon: Users },
+  { name: 'Analytics', href: '/analytics', icon: BarChart3 },
   { name: 'Settings', href: '/settings', icon: Settings },
 ];
 
