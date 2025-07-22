@@ -2,6 +2,8 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useState } from 'react';
 
 interface Document {
   id: number;
@@ -89,43 +91,85 @@ const getClassificationBadge = (classification: string): JSX.Element => {
   }
 };
 
-const Documents: React.FC = () => (
-  <div className='space-y-6'>
-    <div className='flex items-center justify-between'>
-      <h1 className='text-3xl font-bold tracking-tight'>Document Library</h1>
-    </div>
-    <Card className='shadow-soft'>
-      <CardHeader>
-        <CardTitle>Recent Documents</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Document Name</TableHead>
-              <TableHead>Loan #</TableHead>
-              <TableHead>Classification</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Upload Date</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {sampleDocuments.map(({ id, name, loanNumber, classification, status, uploadDate }) => (
-              <TableRow key={id} className='hover:bg-muted/50'>
-                <TableCell className='font-medium'>{name}</TableCell>
-                <TableCell className='font-mono text-sm'>{loanNumber}</TableCell>
-                <TableCell>{getClassificationBadge(classification)}</TableCell>
-                <TableCell>{getStatusBadge(status)}</TableCell>
-                <TableCell className='text-muted-foreground'>
-                  {new Date(uploadDate).toLocaleDateString()}
-                </TableCell>
+const Documents: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
+
+  const handleOpen = (doc: Document) => {
+    setSelectedDoc(doc);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedDoc(null);
+  };
+
+  return (
+    <div className='space-y-6'>
+      <div className='flex items-center justify-between'>
+        <h1 className='text-3xl font-bold tracking-tight'>Document Library</h1>
+      </div>
+      <Card className='shadow-soft'>
+        <CardHeader>
+          <CardTitle>Recent Documents</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Document Name</TableHead>
+                <TableHead>Loan #</TableHead>
+                <TableHead>Classification</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Upload Date</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
-  </div>
-);
+            </TableHeader>
+            <TableBody>
+              {sampleDocuments.map((doc) => (
+                <TableRow key={doc.id} className='hover:bg-muted/50'>
+                  <TableCell className='font-medium'>
+                    <button
+                      type='button'
+                      className='text-primary underline hover:text-primary/80 focus:outline-none'
+                      onClick={() => handleOpen(doc)}
+                    >
+                      {doc.name}
+                    </button>
+                  </TableCell>
+                  <TableCell className='font-mono text-sm'>{doc.loanNumber}</TableCell>
+                  <TableCell>{getClassificationBadge(doc.classification)}</TableCell>
+                  <TableCell>{getStatusBadge(doc.status)}</TableCell>
+                  <TableCell className='text-muted-foreground'>
+                    {new Date(doc.uploadDate).toLocaleDateString()}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent onInteractOutside={handleClose}>
+          <DialogHeader>
+            <DialogTitle>Document Preview</DialogTitle>
+          </DialogHeader>
+          {selectedDoc ? (
+            <div className='space-y-2'>
+              <div className='font-semibold'>{selectedDoc.name}</div>
+              {/* Placeholder for preview. Backend engineer can replace this with an <iframe> or <img> using a real file URL. */}
+              <div className='flex items-center justify-center h-48 bg-muted rounded'>
+                <span className='text-muted-foreground'>Preview not available</span>
+              </div>
+              <div className='text-xs text-muted-foreground'>
+                Connect a file URL from the backend to enable preview.
+              </div>
+            </div>
+          ) : null}
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+};
 
 export default Documents;

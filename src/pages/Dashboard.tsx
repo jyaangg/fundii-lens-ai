@@ -17,6 +17,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
+import { useNavigate } from 'react-router-dom';
 
 interface Stat {
   name: string;
@@ -130,57 +131,71 @@ const RecentDocuments: React.FC = () => (
   </Card>
 );
 
-const ProcessingOverview: React.FC = () => (
-  <Card className='shadow-soft'>
-    <CardHeader>
-      <CardTitle>Processing Overview</CardTitle>
-      <CardDescription>Current document processing status</CardDescription>
-    </CardHeader>
-    <CardContent className='space-y-4'>
-      <div className='space-y-2'>
-        <div className='flex justify-between text-sm'>
-          <span>Documents Processed</span>
-          <span>84/100</span>
-        </div>
-        <Progress value={84} className='h-2' />
-      </div>
-      <div className='space-y-3'>
-        <div className='flex items-center justify-between'>
-          <div className='flex items-center gap-2'>
-            <CheckCircle className='h-4 w-4 text-success' />
-            <span className='text-sm'>Completed</span>
+const ProcessingOverview: React.FC = () => {
+  const navigate = useNavigate();
+  // Example data for annual review years
+  const reviewData = [
+    { year: 2024, collected: 80, total: 100 },
+    { year: 2025, collected: 20, total: 100 },
+  ];
+  return (
+    <Card className='shadow-soft'>
+      <CardHeader>
+        <CardTitle>Processing Overview</CardTitle>
+        <CardDescription>Current document processing status by annual review year</CardDescription>
+      </CardHeader>
+      <CardContent className='space-y-6'>
+        {reviewData.map(({ year, collected, total }) => (
+          <div key={year} className='space-y-2'>
+            <div className='flex justify-between text-sm font-medium'>
+              <span>Year {year}</span>
+              <span>{collected}/{total} documents</span>
+            </div>
+            <Progress value={Math.round((collected / total) * 100)} className='h-2' />
           </div>
-          <span className='text-sm font-medium'>67</span>
-        </div>
-        <div className='flex items-center justify-between'>
-          <div className='flex items-center gap-2'>
-            <Clock className='h-4 w-4 text-warning' />
-            <span className='text-sm'>Processing</span>
+        ))}
+        <div className='space-y-3 pt-2'>
+          <div className='flex items-center justify-between'>
+            <div className='flex items-center gap-2'>
+              <CheckCircle className='h-4 w-4 text-success' />
+              <span className='text-sm'>Completed</span>
+            </div>
+            <span className='text-sm font-medium'>67</span>
           </div>
-          <span className='text-sm font-medium'>17</span>
-        </div>
-        <div className='flex items-center justify-between'>
-          <div className='flex items-center gap-2'>
-            <AlertTriangle className='h-4 w-4 text-destructive' />
-            <span className='text-sm'>Requires Attention</span>
+          <div className='flex items-center justify-between'>
+            <div className='flex items-center gap-2'>
+              <Clock className='h-4 w-4 text-warning' />
+              <span className='text-sm'>Processing</span>
+            </div>
+            <span className='text-sm font-medium'>17</span>
           </div>
-          <span className='text-sm font-medium'>3</span>
+          <div className='flex items-center justify-between'>
+            <div className='flex items-center gap-2'>
+              <AlertTriangle className='h-4 w-4 text-destructive' />
+              <span className='text-sm'>Requires Attention</span>
+            </div>
+            <span className='text-sm font-medium'>3</span>
+          </div>
         </div>
-      </div>
-      <Button className='w-full mt-4' variant='gradient'>
-        <Upload className='h-4 w-4 mr-2' />
-        Upload New Documents
-      </Button>
-    </CardContent>
-  </Card>
-);
+        <Button
+          className='w-full mt-4'
+          variant='gradient'
+          onClick={() => navigate('/upload')}
+        >
+          <Upload className='h-4 w-4 mr-2' />
+          Upload New Documents
+        </Button>
+      </CardContent>
+    </Card>
+  );
+};
 
 const Dashboard: React.FC = () => (
   <div className='space-y-6 animate-fade-in'>
     <div className='bg-gradient-primary rounded-lg p-6 text-primary-foreground shadow-medium'>
-      <h1 className='text-3xl font-bold mb-2'>Welcome to Fundii AI</h1>
+      <h1 className='text-3xl font-bold mb-2'>CMLS</h1>
       <p className='text-primary-foreground/90'>
-        Streamline your commercial real estate loan document review process with AI-powered analysis.
+        Annual Review Dashboard
       </p>
     </div>
     <StatsGrid />
