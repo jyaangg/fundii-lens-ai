@@ -32,14 +32,19 @@ interface UploadedFile {
     riskFactors: string[];
     recommendations: string[];
   };
+  extractedFields?: {
+    [key: string]: string | number;
+  };
 }
 
 const generateMockAnalysis = () => {
   const classifications = ['Property Insurance', 'Property Tax', 'Financial Statement'];
   const borrowers = ['Meridian Properties LLC', 'Pinnacle Real Estate Group', 'Harbor Point Development'];
   const addresses = ['123 Oak Street Plaza', '456 Business Center Dr', '789 Commerce Blvd'];
-  return {
-    classification: classifications[Math.floor(Math.random() * classifications.length)],
+  const classification = classifications[Math.floor(Math.random() * classifications.length)];
+  
+  const baseResult = {
+    classification,
     borrower: borrowers[Math.floor(Math.random() * borrowers.length)],
     propertyAddress: addresses[Math.floor(Math.random() * addresses.length)],
     loanNumber: `LN-${Math.random().toString(36).substr(2, 8).toUpperCase()}`,
@@ -59,6 +64,31 @@ const generateMockAnalysis = () => {
       ]
     }
   };
+
+  // Add extracted fields for Property Tax documents
+  if (classification === 'Property Tax') {
+    return {
+      ...baseResult,
+      extractedFields: {
+        'Tax Year': 2024,
+        'Property Owner': 'MERIDIAN PROPERTIES LLC',
+        'Property Address': '123 OAK STREET PLAZA DOWNTOWN CA 90210',
+        'Assessor Parcel Number': '5142-015-023',
+        'Total Assessed Value': '$2,850,000',
+        'Total Tax Due': '$28,785.50',
+        'Tax Rate': '1.0102%',
+        'Due Date': '04/10/2024',
+        'Payment Status': 'PAID',
+        'Installment 1': '$14,392.75 - PAID 12/10/2023',
+        'Installment 2': '$14,392.75 - PAID 04/08/2024',
+        'Land Value': '$1,425,000',
+        'Improvement Value': '$1,425,000',
+        'Tax Code Area': '07001'
+      }
+    };
+  }
+
+  return baseResult;
 };
 
 const getStatusIcon = (status: UploadedFile['status']): JSX.Element => {
@@ -214,7 +244,7 @@ const Upload: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className='space-y-4'>
-              {files.map(({ id, file, status, progress, classification, borrower, propertyAddress, loanNumber, analysis }) => (
+              {files.map(({ id, file, status, progress, classification, borrower, propertyAddress, loanNumber, analysis, extractedFields }) => (
                 <div key={id} className='border border-border rounded-lg p-4 space-y-3'>
                   {/* File Info Header */}
                   <div className='flex items-center justify-between'>
@@ -320,6 +350,24 @@ const Upload: React.FC = () => {
                                 ))}
                               </ul>
                             </div>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Extracted Fields Section */}
+                      {extractedFields && (
+                        <div className='space-y-3 pt-3 border-t border-border'>
+                          <h4 className='font-medium flex items-center gap-2'>
+                            <FileText className='w-4 h-4 text-primary' />
+                            Extracted Fields
+                          </h4>
+                          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3'>
+                            {Object.entries(extractedFields).map(([key, value]) => (
+                              <div key={key} className='bg-background border border-border rounded-lg p-3'>
+                                <div className='text-xs font-medium text-muted-foreground mb-1'>{key}</div>
+                                <div className='text-sm font-medium'>{value}</div>
+                              </div>
+                            ))}
                           </div>
                         </div>
                       )}
