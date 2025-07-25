@@ -6,8 +6,7 @@ import {
   FileText,
   BarChart3,
   Settings,
-  Users,
-  Clock
+  Users
 } from 'lucide-react';
 // Internal imports
 import { cn } from '@/lib/utils';
@@ -22,8 +21,7 @@ const navigation: NavigationItem[] = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard },
   { name: 'Upload Documents', href: '/upload', icon: Upload },
   { name: 'Document Library', href: '/documents', icon: FileText },
-  { name: 'Processing Status', href: '/status', icon: Clock },
-  { name: 'Borrowers', href: '/borrowers', icon: Users },
+  { name: 'Portfolio Status', href: '/borrowers', icon: Users },
   { name: 'Analytics', href: '/analytics', icon: BarChart3 },
   { name: 'Settings', href: '/settings', icon: Settings },
 ];
