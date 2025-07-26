@@ -10,6 +10,7 @@ import Upload from './pages/Upload';
 import Documents from './pages/Documents';
 import Analytics from './pages/Analytics';
 import Borrowers from './pages/Borrowers';
+import Settings from './pages/Settings';
 import NotFound from './pages/NotFound';
 import { DashboardLayout } from './components/layout/DashboardLayout';
 
@@ -28,6 +29,7 @@ const App: React.FC = () => (
             <Route path='/documents' element={<Documents />} />
             <Route path='/analytics' element={<Analytics />} />
             <Route path='/borrowers' element={<Borrowers />} />
+            <Route path='/settings' element={<Settings />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path='*' element={<NotFound />} />
           </Routes>
