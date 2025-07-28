@@ -9,6 +9,8 @@ const sampleAlerts = [
   { id: 1, message: 'Property Insurance for Oakwood Properties due in 3 days', type: 'warning' },
   { id: 2, message: 'Financial Statement for Metro Development overdue', type: 'danger' },
   { id: 3, message: 'Property Tax for Sunrise Commercial due in 7 days', type: 'info' },
+  { id: 4, message: 'Operating Statement for Gateway Holdings due in 5 days', type: 'warning' },
+  { id: 5, message: 'Rent Roll for Pinnacle Investments overdue', type: 'danger' },
 ];
 
 const Header: React.FC = () => {

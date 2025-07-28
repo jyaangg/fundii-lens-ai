@@ -67,6 +67,22 @@ const recentDocuments: Document[] = [
     status: 'pending',
     uploadDate: '2024-01-14'
   },
+  {
+    id: 4,
+    name: 'Operating Statement - Quarterly Report',
+    borrower: 'Summit Real Estate Holdings',
+    type: 'Operating Statement',
+    status: 'completed',
+    uploadDate: '2024-01-13'
+  },
+  {
+    id: 5,
+    name: 'Rent Roll - December 2023',
+    borrower: 'Gateway Properties LLC',
+    type: 'Rent Roll',
+    status: 'processing',
+    uploadDate: '2024-01-12'
+  },
 ];
 
 const getStatusBadge = (status: Document['status']): JSX.Element => {

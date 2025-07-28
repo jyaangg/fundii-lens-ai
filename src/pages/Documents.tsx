@@ -19,7 +19,7 @@ const sampleDocuments: Document[] = [
     id: 1,
     name: "2024_Property_Insurance_Certificate.pdf",
     loanNumber: "CRE-2024-0156",
-    classification: "Property Insurance",
+    classification: "Insurance",
     status: "completed",
     uploadDate: "2024-01-15T14:30:00Z",
   },
@@ -27,7 +27,7 @@ const sampleDocuments: Document[] = [
     id: 2,
     name: "Financial_Statements_Q4_2023.xlsx",
     loanNumber: "CRE-2024-0142",
-    classification: "Financial Statements",
+    classification: "Financial Statement",
     status: "requires attention",
     uploadDate: "2024-01-14T09:15:00Z",
   },
@@ -41,27 +41,43 @@ const sampleDocuments: Document[] = [
   },
   {
     id: 4,
-    name: "Commercial_Insurance_Policy.pdf",
+    name: "Operating_Statement_Q4_2023.xlsx",
     loanNumber: "CRE-2024-0129",
-    classification: "Property Insurance",
+    classification: "Operating Statement",
     status: "completed",
     uploadDate: "2024-01-12T11:20:00Z",
   },
   {
     id: 5,
-    name: "Annual_Financial_Report_2023.pdf",
+    name: "Rent_Roll_December_2023.pdf",
     loanNumber: "CRE-2024-0142",
-    classification: "Financial Statements",
+    classification: "Rent Roll",
     status: "completed",
     uploadDate: "2024-01-11T13:30:00Z",
   },
   {
     id: 6,
-    name: "Tax_Records_Commercial_Property.pdf",
+    name: "Commercial_Insurance_Policy.pdf",
     loanNumber: "CRE-2024-0088",
-    classification: "Property Tax",
+    classification: "Insurance",
     status: "requires attention",
     uploadDate: "2024-01-10T10:15:00Z",
+  },
+  {
+    id: 7,
+    name: "Annual_Operating_Statement_2023.pdf",
+    loanNumber: "CRE-2024-0173",
+    classification: "Operating Statement",
+    status: "processing",
+    uploadDate: "2024-01-09T15:45:00Z",
+  },
+  {
+    id: 8,
+    name: "Property_Tax_Records_2024.pdf",
+    loanNumber: "CRE-2024-0201",
+    classification: "Property Tax",
+    status: "completed",
+    uploadDate: "2024-01-08T12:30:00Z",
   },
 ];
 
@@ -80,12 +96,16 @@ const getStatusBadge = (status: string): JSX.Element => {
 
 const getClassificationBadge = (classification: string): JSX.Element => {
   switch (classification) {
-    case 'Property Insurance':
+    case 'Insurance':
       return <Badge variant='outline' className='bg-purple-500/10 text-purple-700 border-purple-500/20'>Insurance</Badge>;
     case 'Property Tax':
       return <Badge variant='outline' className='bg-orange-500/10 text-orange-700 border-orange-500/20'>Property Tax</Badge>;
-    case 'Financial Statements':
+    case 'Financial Statement':
       return <Badge variant='outline' className='bg-teal-500/10 text-teal-700 border-teal-500/20'>Financial</Badge>;
+    case 'Operating Statement':
+      return <Badge variant='outline' className='bg-blue-500/10 text-blue-700 border-blue-500/20'>Operating</Badge>;
+    case 'Rent Roll':
+      return <Badge variant='outline' className='bg-green-500/10 text-green-700 border-green-500/20'>Rent Roll</Badge>;
     default:
       return <Badge variant='outline'>{classification}</Badge>;
   }

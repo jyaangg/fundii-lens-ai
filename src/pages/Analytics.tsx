@@ -46,6 +46,8 @@ interface DocumentProgress {
   insurance: number;
   taxes: number;
   financial: number;
+  operating: number;
+  rentRoll: number;
 }
 
 const collectionPerformance: CollectionPerformance[] = [
@@ -72,10 +74,10 @@ const borrowerAttention: BorrowerAttention[] = [
 ];
 
 const documentProgress: DocumentProgress[] = [
-  { week: "Week 1", insurance: 45, taxes: 38, financial: 42 },
-  { week: "Week 2", insurance: 62, taxes: 55, financial: 58 },
-  { week: "Week 3", insurance: 78, taxes: 71, financial: 69 },
-  { week: "Week 4", insurance: 89, taxes: 85, financial: 82 },
+  { week: "Week 1", insurance: 45, taxes: 38, financial: 42, operating: 35, rentRoll: 40 },
+  { week: "Week 2", insurance: 62, taxes: 55, financial: 58, operating: 52, rentRoll: 60 },
+  { week: "Week 3", insurance: 78, taxes: 71, financial: 69, operating: 68, rentRoll: 75 },
+  { week: "Week 4", insurance: 89, taxes: 85, financial: 82, operating: 80, rentRoll: 87 },
 ];
 
 const COLORS = ['#10b981', '#f59e0b', '#ef4444'];
@@ -199,6 +201,8 @@ const Analytics: React.FC = () => (
             <Area type='monotone' dataKey='insurance' stackId='1' stroke='#8884d8' fill='#8884d8' name='Insurance' />
             <Area type='monotone' dataKey='taxes' stackId='1' stroke='#82ca9d' fill='#82ca9d' name='Property Tax' />
             <Area type='monotone' dataKey='financial' stackId='1' stroke='#ffc658' fill='#ffc658' name='Financial Statements' />
+            <Area type='monotone' dataKey='operating' stackId='1' stroke='#ff7c7c' fill='#ff7c7c' name='Operating Statements' />
+            <Area type='monotone' dataKey='rentRoll' stackId='1' stroke='#8dd1e1' fill='#8dd1e1' name='Rent Roll' />
           </AreaChart>
         </ResponsiveContainer>
       </CardContent>
