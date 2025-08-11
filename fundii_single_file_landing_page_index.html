@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fundii — AI-powered CRE loan servicing</title>
+  <meta name="description" content="Automate financial reviews with document parsing, checklist automation, and audit-ready reporting." />
+  <meta property="og:title" content="Fundii — AI-powered CRE loan servicing" />
+  <meta property="og:description" content="Automate financial reviews with document parsing, checklist automation, and audit-ready reporting." />
+  <meta property="og:type" content="website" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: "#0F1C3F",
+            indigo: "#3C6FF4",
+            slateText: "#0B1220",
+            slateSecondary: "#475569",
+            surface: "#F6F8FC"
+          },
+          boxShadow: {
+            soft: "0 10px 30px -10px rgba(15,28,63,.2)"
+          },
+          borderRadius: {
+            xl2: "1rem"
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    /* Smooth scroll and focus styles */
+    html{scroll-behavior:smooth}
+    :focus-visible{outline:3px solid #3C6FF4; outline-offset:2px}
+  </style>
+</head>
+<body class="text-slateText antialiased bg-white">
+  <!-- Skip link -->
+  <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:bg-white focus:text-navy focus:px-4 focus:py-2 focus:rounded-md focus:shadow-soft">Skip to content</a>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-gray-200">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="#" class="flex items-center gap-2 font-semibold text-navy text-lg" aria-label="Fundii home">
+          <span class="inline-block w-2.5 h-2.5 rounded-full bg-indigo"></span>
+          Fundii
+        </a>
+        <button id="menuBtn" class="md:hidden inline-flex items-center justify-center p-2 rounded-md hover:bg-gray-100" aria-controls="mobileNav" aria-expanded="false" aria-label="Open menu">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+        </button>
+        <nav class="hidden md:flex items-center gap-8" aria-label="Primary">
+          <a href="#product" class="text-slateSecondary hover:text-navy">Product</a>
+          <a href="#pricing" class="text-slateSecondary hover:text-navy">Pricing</a>
+          <a href="#security" class="text-slateSecondary hover:text-navy">Security</a>
+          <a href="#faq" class="text-slateSecondary hover:text-navy">FAQ</a>
+          <a href="#demo" class="inline-flex items-center rounded-lg bg-navy text-white px-4 py-2 hover:opacity-90 shadow-soft">Talk to Sales</a>
+        </nav>
+      </div>
+    </div>
+    <!-- Mobile Nav -->
+    <div id="mobileNav" class="md:hidden hidden border-t border-gray-200 bg-white">
+      <div class="px-4 py-3 space-y-1" role="menu" aria-label="Mobile">
+        <a href="#product" class="block px-3 py-2 rounded-md text-slateSecondary hover:bg-gray-100" role="menuitem">Product</a>
+        <a href="#pricing" class="block px-3 py-2 rounded-md text-slateSecondary hover:bg-gray-100" role="menuitem">Pricing</a>
+        <a href="#security" class="block px-3 py-2 rounded-md text-slateSecondary hover:bg-gray-100" role="menuitem">Security</a>
+        <a href="#faq" class="block px-3 py-2 rounded-md text-slateSecondary hover:bg-gray-100" role="menuitem">FAQ</a>
+        <a href="#demo" class="block px-3 py-2 rounded-md bg-navy text-white" role="menuitem">Talk to Sales</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-b from-surface/80 to-transparent pointer-events-none"></div>
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-navy">AI-powered portfolio management for CRE lenders</h1>
+            <p class="mt-5 text-lg text-slateSecondary max-w-xl">Automate financial reviews with intelligent document parsing, checklist automation, and report generation.</p>
+            <div class="mt-8 flex flex-wrap items-center gap-3">
+              <a href="#trial" class="inline-flex items-center rounded-lg bg-indigo text-white px-6 py-3 font-medium hover:opacity-90 shadow-soft">Start your 14‑day free trial</a>
+              <button data-open="demoDialog" class="inline-flex items-center rounded-lg border border-gray-300 px-6 py-3 font-medium text-navy hover:bg-gray-50">See a 2‑min demo</button>
+            </div>
+            <dl class="mt-10 grid grid-cols-3 gap-4 max-w-lg">
+              <div class="bg-white rounded-xl2 border border-gray-200 p-4 text-center">
+                <dt class="text-sm text-slateSecondary">Speed</dt>
+                <dd class="text-2xl font-semibold text-navy">70% faster</dd>
+              </div>
+              <div class="bg-white rounded-xl2 border border-gray-200 p-4 text-center">
+                <dt class="text-sm text-slateSecondary">Accuracy</dt>
+                <dd class="text-2xl font-semibold text-navy">&lt;1% error</dd>
+              </div>
+              <div class="bg-white rounded-xl2 border border-gray-200 p-4 text-center">
+                <dt class="text-sm text-slateSecondary">Audits</dt>
+                <dd class="text-2xl font-semibold text-navy">3× faster</dd>
+              </div>
+            </dl>
+          </div>
+          <div class="relative">
+            <div class="rounded-2xl border border-gray-200 shadow-soft overflow-hidden bg-white">
+              <!-- Replace with a real product screenshot -->
+              <div class="h-80 sm:h-96 bg-surface grid grid-rows-6">
+                <div class="row-span-1 bg-white/70 border-b border-gray-200 flex items-center gap-3 px-4">
+                  <span class="w-3 h-3 rounded-full bg-red-400"></span>
+                  <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
+                  <span class="w-3 h-3 rounded-full bg-green-400"></span>
+                  <span class="ml-4 text-sm text-slateSecondary">Fundii Dashboard • Mock</span>
+                </div>
+                <div class="row-span-5 grid grid-cols-5 gap-4 p-4">
+                  <div class="col-span-2 bg-white rounded-lg border border-gray-200 p-4">
+                    <p class="text-sm font-medium text-navy">Document Parsing</p>
+                    <div class="mt-3 space-y-2">
+                      <div class="h-3 bg-surface rounded"></div>
+                      <div class="h-3 bg-surface rounded w-2/3"></div>
+                      <div class="h-3 bg-surface rounded w-1/2"></div>
+                    </div>
+                  </div>
+                  <div class="col-span-3 bg-white rounded-lg border border-gray-200 p-4">
+                    <p class="text-sm font-medium text-navy">Checklist</p>
+                    <div class="mt-3 grid grid-cols-2 gap-2">
+                      <div class="h-20 bg-surface rounded"></div>
+                      <div class="h-20 bg-surface rounded"></div>
+                      <div class="h-20 bg-surface rounded"></div>
+                      <div class="h-20 bg-surface rounded"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="sr-only">Product screenshot placeholder</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Logos / Trust -->
+    <section aria-labelledby="trust" class="py-10 border-y border-gray-200 bg-white">
+      <h2 id="trust" class="sr-only">Trusted by lenders</h2>
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 items-center">
+          <div class="h-10 bg-surface rounded" aria-label="Top‑10 US Lender"></div>
+          <div class="h-10 bg-surface rounded" aria-label="National Bank Partner"></div>
+          <div class="h-10 bg-surface rounded" aria-label="Regional CRE Lender"></div>
+          <div class="h-10 bg-surface rounded" aria-label="Mortgage Servicer"></div>
+          <div class="h-10 bg-surface rounded" aria-label="Institutional Lender"></div>
+          <div class="h-10 bg-surface rounded" aria-label="Special Servicer"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="product" class="py-16 lg:py-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto">
+          <h2 class="text-3xl font-bold text-navy">Streamline your review processes</h2>
+          <p class="mt-3 text-slateSecondary">Built for commercial real estate lenders—speed, accuracy, and audit readiness out of the box.</p>
+        </div>
+        <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <article class="rounded-2xl border border-gray-200 p-6 shadow-soft">
+            <div class="w-10 h-10 rounded-lg bg-surface flex items-center justify-center">
+              <span class="sr-only">Icon</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6"><path fill="currentColor" d="M4 4h16v2H4zm0 7h16v2H4zm0 7h16v2H4z"/></svg>
+            </div>
+            <h3 class="mt-4 text-xl font-semibold text-navy">Document Parsing</h3>
+            <p class="mt-2 text-slateSecondary">Extract data from rent rolls, operating statements, tax/insurance, and financials.</p>
+          </article>
+          <article class="rounded-2xl border border-gray-200 p-6 shadow-soft">
+            <div class="w-10 h-10 rounded-lg bg-surface flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6"><path fill="currentColor" d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zM5 7h14v2H5V7zm0 10h14v2H5v-2z"/></svg>
+            </div>
+            <h3 class="mt-4 text-xl font-semibold text-navy">Checklist Automation</h3>
+            <p class="mt-2 text-slateSecondary">Apply customizable compliance templates and auto‑validate fields.</p>
+          </article>
+          <article class="rounded-2xl border border-gray-200 p-6 shadow-soft">
+            <div class="w-10 h-10 rounded-lg bg-surface flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6"><path fill="currentColor" d="M3 5h18v2H3zm0 6h18v2H3zm0 6h18v2H3z"/></svg>
+            </div>
+            <h3 class="mt-4 text-xl font-semibold text-navy">Report Generation</h3>
+            <p class="mt-2 text-slateSecondary">Create borrower summaries and audit packs in a click.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="py-16 bg-surface">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-navy text-center">How it works</h2>
+        <div class="mt-10 grid gap-6 sm:grid-cols-3">
+          <div class="rounded-2xl bg-white border border-gray-200 p-6">
+            <p class="text-sm uppercase tracking-wide text-slateSecondary">Step 1</p>
+            <h3 class="mt-2 font-semibold text-navy">Upload</h3>
+            <p class="mt-2 text-slateSecondary">Drag‑and‑drop documents or connect storage. Auto‑detect document type.</p>
+          </div>
+          <div class="rounded-2xl bg-white border border-gray-200 p-6">
+            <p class="text-sm uppercase tracking-wide text-slateSecondary">Step 2</p>
+            <h3 class="mt-2 font-semibold text-navy">Validate</h3>
+            <p class="mt-2 text-slateSecondary">Extract and validate fields against your checklist templates.</p>
+          </div>
+          <div class="rounded-2xl bg-white border border-gray-200 p-6">
+            <p class="text-sm uppercase tracking-wide text-slateSecondary">Step 3</p>
+            <h3 class="mt-2 font-semibold text-navy">Report</h3>
+            <p class="mt-2 text-slateSecondary">Generate audit‑ready reports and push to your system of record.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Security -->
+    <section id="security" class="py-16">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-8 items-start">
+          <div>
+            <h2 class="text-3xl font-bold text-navy">Enterprise‑grade security</h2>
+            <p class="mt-3 text-slateSecondary">Data encrypted at rest with AES‑256 and in transit with TLS 1.2+. Role‑based permissions, audit logs, and least‑privilege defaults.</p>
+            <div class="mt-6 flex items-center gap-3">
+              <span class="inline-flex items-center rounded-full border border-gray-300 px-3 py-1 text-sm">SOC 2 Type II‑ready</span>
+              <span class="inline-flex items-center rounded-full border border-gray-300 px-3 py-1 text-sm">AES‑256</span>
+              <span class="inline-flex items-center rounded-full border border-gray-300 px-3 py-1 text-sm">TLS 1.2+</span>
+            </div>
+          </div>
+          <div>
+            <div class="divide-y divide-gray-200 rounded-2xl border border-gray-200">
+              <button class="w-full text-left px-5 py-4 flex justify-between items-center" data-accordion>
+                <span class="font-medium text-navy">What data do you store?</span>
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="hidden px-5 pb-4 text-slateSecondary">Only necessary extracted fields and metadata for compliance and reporting; optional redaction for sensitive pages.</div>
+
+              <button class="w-full text-left px-5 py-4 flex justify-between items-center" data-accordion>
+                <span class="font-medium text-navy">Do you support SSO/SCIM?</span>
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="hidden px-5 pb-4 text-slateSecondary">Yes — SSO (SAML/OIDC) and SCIM user provisioning on Growth and Enterprise.</div>
+
+              <button class="w-full text-left px-5 py-4 flex justify-between items-center" data-accordion>
+                <span class="font-medium text-navy">Where is data hosted?</span>
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="hidden px-5 pb-4 text-slateSecondary">Regional hosting options (US/EU/CA) with customer‑managed retention policies.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Case Study -->
+    <section class="py-16 bg-surface">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="rounded-2xl bg-white border border-gray-200 p-8 lg:p-10">
+          <div class="grid lg:grid-cols-3 gap-8 items-center">
+            <div class="lg:col-span-2">
+              <h2 class="text-2xl font-bold text-navy">Results in the real world</h2>
+              <p class="mt-3 text-slateSecondary">A Tier‑1 lender cut review time by 68% across 12k loans/year; audit prep shrank from days to hours while improving completeness and consistency.</p>
+            </div>
+            <dl class="grid grid-cols-3 gap-4 text-center">
+              <div class="rounded-xl2 border border-gray-200 p-4">
+                <dt class="text-sm text-slateSecondary">Time Saved</dt>
+                <dd class="text-2xl font-semibold text-navy">‑68%</dd>
+              </div>
+              <div class="rounded-xl2 border border-gray-200 p-4">
+                <dt class="text-sm text-slateSecondary">Throughput</dt>
+                <dd class="text-2xl font-semibold text-navy">+3×</dd>
+              </div>
+              <div class="rounded-xl2 border border-gray-200 p-4">
+                <dt class="text-sm text-slateSecondary">Accuracy</dt>
+                <dd class="text-2xl font-semibold text-navy">99%+</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-16 lg:py-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto">
+          <h2 class="text-3xl font-bold text-navy">Simple, transparent pricing</h2>
+          <p class="mt-3 text-slateSecondary">Pick a plan and scale as you grow. Pricing shown for illustration.</p>
+        </div>
+        <div class="mt-10 grid gap-6 md:grid-cols-3">
+          <div class="rounded-2xl border border-gray-200 p-6 flex flex-col">
+            <h3 class="text-lg font-semibold text-navy">Starter</h3>
+            <p class="mt-2 text-3xl font-bold text-navy">$49<span class="text-base font-normal text-slateSecondary">/seat</span></p>
+            <ul class="mt-4 space-y-2 text-slateSecondary">
+              <li>Core parsing & export</li>
+              <li>Checklists (basic)</li>
+              <li>Email support</li>
+            </ul>
+            <a href="#trial" class="mt-6 inline-flex justify-center rounded-lg bg-indigo text-white px-4 py-2 hover:opacity-90">Start trial</a>
+          </div>
+          <div class="rounded-2xl border-2 border-indigo p-6 shadow-soft flex flex-col">
+            <p class="inline-flex self-start px-2 py-1 rounded-full bg-indigo/10 text-indigo text-xs font-medium">Most popular</p>
+            <h3 class="mt-2 text-lg font-semibold text-navy">Growth</h3>
+            <p class="mt-2 text-3xl font-bold text-navy">$99<span class="text-base font-normal text-slateSecondary">/seat</span></p>
+            <ul class="mt-4 space-y-2 text-slateSecondary">
+              <li>Advanced parsing & validation</li>
+              <li>Custom checklists</li>
+              <li>SSO & SCIM</li>
+              <li>Priority support</li>
+            </ul>
+            <a href="#trial" class="mt-6 inline-flex justify-center rounded-lg bg-indigo text-white px-4 py-2 hover:opacity-90">Start trial</a>
+          </div>
+          <div class="rounded-2xl border border-gray-200 p-6 flex flex-col">
+            <h3 class="text-lg font-semibold text-navy">Enterprise</h3>
+            <p class="mt-2 text-3xl font-bold text-navy">Custom</p>
+            <ul class="mt-4 space-y-2 text-slateSecondary">
+              <li>Dedicated environment</li>
+              <li>Regional hosting</li>
+              <li>SLAs & support</li>
+            </ul>
+            <a href="#demo" class="mt-6 inline-flex justify-center rounded-lg border border-gray-300 px-4 py-2 text-navy hover:bg-gray-50">Talk to sales</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Strip -->
+    <section id="demo" class="py-14 bg-navy">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-white">
+        <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+          <h2 class="text-2xl font-semibold">See Fundii in action</h2>
+          <div class="flex items-center gap-3">
+            <button data-open="demoDialog" class="inline-flex items-center rounded-lg bg-white text-navy px-5 py-3 font-medium hover:opacity-90">Schedule a 15‑min demo</button>
+            <a href="#trial" class="inline-flex items-center rounded-lg border border-white/30 px-5 py-3 font-medium hover:bg-white/10">Start free trial</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="py-16">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto">
+          <h2 class="text-3xl font-bold text-navy">Frequently asked questions</h2>
+        </div>
+        <div class="mt-10 divide-y divide-gray-200 rounded-2xl border border-gray-200">
+          <details>
+            <summary class="group cursor-pointer list-none px-5 py-4 flex items-center justify-between">
+              <span class="font-medium text-navy">What document types are supported?</span>
+              <span class="transition-transform group-open:-rotate-180">⌄</span>
+            </summary>
+            <div class="px-5 pb-4 text-slateSecondary">Rent rolls, operating statements, insurance certificates, tax bills, borrower financials, and more.</div>
+          </details>
+          <details>
+            <summary class="group cursor-pointer list-none px-5 py-4 flex items-center justify-between">
+              <span class="font-medium text-navy">How accurate is extraction?</span>
+              <span class="transition-transform group-open:-rotate-180">⌄</span>
+            </summary>
+            <div class="px-5 pb-4 text-slateSecondary">Benchmarked at &lt;1% field error rate on standard forms; human‑in‑the‑loop review for exceptions.</div>
+          </details>
+          <details>
+            <summary class="group cursor-pointer list-none px-5 py-4 flex items-center justify-between">
+              <span class="font-medium text-navy">Implementation time?</span>
+              <span class="transition-transform group-open:-rotate-180">⌄</span>
+            </summary>
+            <div class="px-5 pb-4 text-slateSecondary">Typical pilot launches in 1–2 weeks with standard templates; enterprise rollouts vary by integration scope.</div>
+          </details>
+          <details>
+            <summary class="group cursor-pointer list-none px-5 py-4 flex items-center justify-between">
+              <span class="font-medium text-navy">Can I use my own templates?</span>
+              <span class="transition-transform group-open:-rotate-180">⌄</span>
+            </summary>
+            <div class="px-5 pb-4 text-slateSecondary">Yes — import your checklists and map fields to Fundii’s schema.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-gray-200 py-10">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <p class="text-slateSecondary">© <span id="year"></span> Fundii. All rights reserved.</p>
+        <nav class="flex items-center gap-6 text-slateSecondary" aria-label="Footer">
+          <a href="#security" class="hover:text-navy">Security</a>
+          <a href="#" class="hover:text-navy">Privacy</a>
+          <a href="#" class="hover:text-navy">Terms</a>
+          <a href="#" class="hover:text-navy">Contact</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Demo Dialog -->
+  <div id="demoDialog" class="fixed inset-0 hidden items-center justify-center bg-black/50 p-4" role="dialog" aria-modal="true" aria-labelledby="demoTitle">
+    <div class="w-full max-w-xl rounded-2xl bg-white p-6 shadow-soft">
+      <div class="flex items-start justify-between">
+        <h3 id="demoTitle" class="text-xl font-semibold text-navy">Schedule a 15‑min demo</h3>
+        <button class="p-2" data-close aria-label="Close dialog">✕</button>
+      </div>
+      <p class="mt-2 text-slateSecondary">Connect your calendar link here (e.g., Calendly). For now, this is a placeholder form.</p>
+      <form class="mt-6 grid gap-4">
+        <label class="block">
+          <span class="text-sm text-slateSecondary">Work email</span>
+          <input type="email" required class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="you@company.com" />
+        </label>
+        <label class="block">
+          <span class="text-sm text-slateSecondary">Company</span>
+          <input type="text" class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="Company name" />
+        </label>
+        <div class="flex items-center justify-end gap-3">
+          <button type="button" data-close class="px-4 py-2 rounded-lg border border-gray-300">Cancel</button>
+          <button class="px-4 py-2 rounded-lg bg-indigo text-white">Request demo</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Minimal JS for menu, accordion, dialog, year -->
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    if (menuBtn) {
+      menuBtn.addEventListener('click', () => {
+        const open = mobileNav.classList.toggle('hidden');
+        menuBtn.setAttribute('aria-expanded', String(!open));
+      });
+    }
+
+    // Security accordions (button + div pairs)
+    document.querySelectorAll('[data-accordion]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const content = btn.nextElementSibling;
+        const isOpen = !content.classList.contains('hidden');
+        document.querySelectorAll('[data-accordion]').forEach(b => {
+          if (b !== btn) b.nextElementSibling.classList.add('hidden');
+        });
+        content.classList.toggle('hidden', isOpen);
+        btn.setAttribute('aria-expanded', String(!isOpen));
+      });
+    });
+
+    // Dialog open/close
+    const openers = document.querySelectorAll('[data-open]');
+    const closers = document.querySelectorAll('[data-close]');
+    openers.forEach((op) => {
+      op.addEventListener('click', () => {
+        const id = op.getAttribute('data-open');
+        const dlg = document.getElementById(id);
+        dlg.classList.remove('hidden');
+        dlg.classList.add('flex');
+        // focus first input if present
+        const input = dlg.querySelector('input, button, [href], select, textarea');
+        if (input) input.focus();
+      });
+    });
+    closers.forEach((cl) => {
+      cl.addEventListener('click', () => {
+        const dlg = cl.closest('#demoDialog');
+        dlg.classList.add('hidden');
+        dlg.classList.remove('flex');
+      });
+    });
+    // Close dialog on backdrop click
+    document.getElementById('demoDialog').addEventListener('click', (e) => {
+      if (e.target.id === 'demoDialog') {
+        e.currentTarget.classList.add('hidden');
+        e.currentTarget.classList.remove('flex');
+      }
+    });
+  </script>
+</body>
+</html>
